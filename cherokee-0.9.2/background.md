@@ -1,0 +1,1 @@
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
