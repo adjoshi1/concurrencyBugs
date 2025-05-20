@@ -110,6 +110,7 @@ static void *update_guts (void *arg) {
 
 int main() {
 	cherokee_buffer_init(&cherokee_bogonow_strgmt);
+	ret_t res_1, res_2;
 	int n = 10;
 
 	for (int i = 0; i < 1000; i++) {
