@@ -112,7 +112,7 @@ int main() {
 	cherokee_buffer_init(&cherokee_bogonow_strgmt);
 	int n = 10;
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 1000; i++) {
 		pthread_t thread1, thread2;
 
 		cherokee_buffer_clean(&cherokee_bogonow_strgmt);
