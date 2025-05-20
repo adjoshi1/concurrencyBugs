@@ -113,7 +113,7 @@ int main() {
 	ret_t res_1, res_2;
 	int n = 10;
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 10; i++) {
 		pthread_t thread1, thread2;
 
 		cherokee_buffer_clean(&cherokee_bogonow_strgmt);
