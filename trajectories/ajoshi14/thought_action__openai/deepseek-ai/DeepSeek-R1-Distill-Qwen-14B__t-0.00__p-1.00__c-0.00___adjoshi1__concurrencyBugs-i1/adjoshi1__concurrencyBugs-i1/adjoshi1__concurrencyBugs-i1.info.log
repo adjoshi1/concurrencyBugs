@@ -1,0 +1,16 @@
+2025-05-22 17:39:12,755 - INFO - swea-run - Starting environment
+2025-05-22 17:39:12,790 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-05-22 17:39:12,841 - INFO - rex-deploy - Starting container python3.11-a8da97a0-6050-4193-b5b5-7beafb5b7f56 with image python:3.11 serving on port 33519
+2025-05-22 17:39:12,844 - INFO - rex-deploy - Starting runtime at 33519
+2025-05-22 17:39:14,277 - INFO - rex-deploy - Runtime started in 1.43s
+2025-05-22 17:39:15,071 - INFO - swea-env - Environment Initialized
+2025-05-22 17:39:15,881 - INFO - swea-run - Running agent
+2025-05-22 17:39:15,888 - INFO - swea-agent - Setting up agent for instance adjoshi1__concurrencyBugs-i1
+2025-05-22 17:39:15,889 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/thought_action__openai/deepseek-ai/DeepSeek-R1-Distill-Qwen-14B__t-0.00__p-1.00__c-0.00___adjoshi1__concurrencyBugs-i1/adjoshi1__concurrencyBugs-i1/adjoshi1__concurrencyBugs-i1.traj
+2025-05-22 17:39:16,307 - ERROR - swea-env - Command failed:
+bash: _write_env: command not found
+bash: _write_env: command not found
+bash: _write_env: command not found
+bash: _write_env: command not found
+2025-05-22 17:39:16,309 - ERROR - swea-env - Command 'export PATH=/root/tools/defaults/bin:$PATH && chmod +x /root/tools/defaults/bin/* && cd /root/tools/defaults && source install.sh && chmod +x /root/tools/defaults/bin/*' failed (r.exit_code=127): Command failed
+2025-05-22 17:39:16,310 - INFO - swea-env - Beginning environment shutdown...

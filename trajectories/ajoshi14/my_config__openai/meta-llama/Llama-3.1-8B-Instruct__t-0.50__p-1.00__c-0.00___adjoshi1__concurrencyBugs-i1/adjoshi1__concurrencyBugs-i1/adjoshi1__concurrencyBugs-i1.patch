@@ -1,0 +1,41 @@
+diff --git a/cherokee-0.9.2/bug_prompt.c b/cherokee-0.9.2/bug_prompt.c
+index 7406618..19495cb 100644
+--- a/cherokee-0.9.2/bug_prompt.c
++++ b/cherokee-0.9.2/bug_prompt.c
+@@ -96,6 +96,7 @@ ret_t cherokee_buffer_add (cherokee_buffer_t *buf, const char *txt, size_t size)
+ 
+ 	// Copy
+ 	memcpy (buf->buf + buf->len, txt, size);
++buf->buf[buf->len] = '\0';
+ 
+ 	buf->len += size;
+ 	buf->buf[buf->len] = '\0';
+@@ -104,7 +105,8 @@ ret_t cherokee_buffer_add (cherokee_buffer_t *buf, const char *txt, size_t size)
+ }
+ 
+ static void *update_guts (void *arg) {
+-	cherokee_buffer_add(&cherokee_bogonow_strgmt, txt, strlen(txt));
++	memcpy (cherokee_bogonow_strgmt.buf + cherokee_bogonow_strgmt.len, txt, strlen(txt));
++cherokee_bogonow_strgmt.buf[cherokee_bogonow_strgmt.len] = '\0';
+ 	return NULL;
+ }
+ 
+@@ -116,7 +118,9 @@ int main() {
+ 	for (int i = 0; i < 10; i++) {
+ 		pthread_t thread1, thread2;
+ 
+-		cherokee_buffer_clean(&cherokee_bogonow_strgmt);
++		pthread_mutex_lock(&lock);
++cherokee_buffer_clean(&cherokee_bogonow_strgmt);
++pthread_mutex_unlock(&lock);
+ 		pthread_create(&thread1, NULL, update_guts, NULL);
+ 		pthread_create(&thread2, NULL, update_guts, NULL);
+ 
+@@ -124,6 +128,7 @@ int main() {
+ 		pthread_join(thread2, NULL);
+ 
+ 		printf("Run %d: buf = %s, len = %d \n", i, cherokee_bogonow_strgmt.buf, cherokee_bogonow_strgmt.len);
++cherokee_buffer_clean(&cherokee_bogonow_strgmt);
+ 	}
+ 
+ 	return 0;

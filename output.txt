@@ -1,0 +1,37 @@
+👋 INFO     This is SWE-agent version 1.0.1 (hash='fa3692e87b6016651dc607e2cd28d5cc59163991') with SWE-ReX version 1.2.1           
+            (rex_hash='unavailable').                                                                                              
+🔧 WARN     demonstration_template is ignored when put_demos_in_history is True                                                    
+🔧 INFO     Setting problem statement based on github issue url                                                                    
+🔧 INFO     Loaded environment variables from /home/ajoshi14/SWE-agent/.env                                                        
+🤖 WARN     Model openai/meta-llama/Llama-3.1-8B-Instruct does not support function calling. If your model does not support        
+            function calling, you can use `parse_function='thought_action'` instead. See https://swe-agent.com/latest/faq/ for more
+            information.                                                                                                           
+🔧 WARN     demonstration_template is ignored when put_demos_in_history is True                                                    
+🏃 INFO     Starting environment                                                                                                   
+🦖 INFO     Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it
+            once). To skip this step, set `python_standalone_dir` to None.                                                         
+🦖 DEBUG    Found free port 55713                                                                                                  
+🦖 INFO     Starting container python3.11-3d50d7c5-59eb-4527-830e-886dccd50f92 with image python:3.11 serving on port 55713        
+🦖 DEBUG    Command: "docker run --rm -p 55713:8000 --name python3.11-3d50d7c5-59eb-4527-830e-886dccd50f92                         
+            sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote 
+            --auth-token 2e98f218-d7a4-4149-932f-f8b3114d5905'"                                                                    
+🦖 INFO     Starting runtime at 55713                                                                                              
+🦖 INFO     Runtime started in 1.43s                                                                                               
+��� INFO   Environment Initialized                                                                                                 
+��� DEBUG  Resetting repository adjoshi1__concurrencyBugs to commit HEAD                                                           
+🏃 INFO     Running agent                                                                                                          
+🤠 INFO     Setting up agent for instance adjoshi1__concurrencyBugs-i2                                                             
+🤠 INFO     Trajectory will be saved to                                                                                            
+            /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/meta-llama/Llama-3.1-8B-Instruct__t-0.00__p-1.00__
+            c-0.00___adjoshi1__concurrencyBugs-i2/adjoshi1__concurrencyBugs-i2/adjoshi1__concurrencyBugs-i2.traj                   
+🦖 DEBUG    Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry                                    
+🦖 DEBUG    Created zip file at /tmp/tmpnmit_clv/zipped_transfer.zip                                                               
+🦖 DEBUG    Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults                                    
+🦖 DEBUG    Created zip file at /tmp/tmprsfbcw41/zipped_transfer.zip                                                               
+🦖 DEBUG    Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search                                        
+🦖 DEBUG    Created zip file at /tmp/tmpytvvp98d/zipped_transfer.zip                                                               
+🦖 DEBUG    Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace                            
+🦖 DEBUG    Created zip file at /tmp/tmpygrhp3t2/zipped_transfer.zip                                                               
+🦖 DEBUG    Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit                                        
+🦖 DEBUG    Created zip file at /tmp/tmpusc0euj1/zipped_transfer.zip                                                               
+Ensuring deployment is stopped because object is deleted

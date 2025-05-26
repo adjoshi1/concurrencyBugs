@@ -1,0 +1,78 @@
+diff --git a/__pycache__/apache.cpython-311.pyc b/__pycache__/apache.cpython-311.pyc
+new file mode 100644
+index 0000000..a1a5a74
+Binary files /dev/null and b/__pycache__/apache.cpython-311.pyc differ
+diff --git a/apache.py b/apache.py
+new file mode 100644
+index 0000000..a466323
+--- /dev/null
++++ b/apache.py
+@@ -0,0 +1,34 @@
++
++import threading
++
++
++
++class Cache:
++
++    def __init__(self):
++
++        self.lock = threading.Lock()
++
++
++
++def cache_create():
++
++    cache = Cache()
++
++    return cache
++
++
++
++def cache_cleanup(cache):
++
++    with cache.lock:
++
++        cache.lock.release()
++
++
++
++def cache_access(cache):
++
++    with cache.lock:
++
++        print("Cache object has been cleaned up once!")
+diff --git a/reproduce.py b/reproduce.py
+new file mode 100644
+index 0000000..4fdd566
+--- /dev/null
++++ b/reproduce.py
+@@ -0,0 +1,28 @@
++
++from apache import apache_module
++
++
++
++def main():
++
++    # Create a cache object
++
++    cache = apache_module.cache_create()
++
++
++
++    # Clean up the cache object
++
++    apache_module.cache_cleanup(cache)
++
++
++
++    # Try to access the cache object again
++
++    apache_module.cache_access(cache)
++
++
++
++if __name__ == '__main__':
++
++    main()

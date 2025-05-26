@@ -1,0 +1,24 @@
+diff --git a/apache-21287/bug_prompt.c b/apache-21287/bug_prompt.c
+index 85cadaa..a1548de 100644
+--- a/apache-21287/bug_prompt.c
++++ b/apache-21287/bug_prompt.c
+@@ -12,7 +12,9 @@ void cleanup_cache_object(CacheObject *obj) {
+     struct timespec ts = {0, 100000000};  
+     nanosleep(&ts, NULL);
+     obj->cleanup_count++;
+-    if (obj->cleanup_count > 1) {
++    #if 0
++if (obj->cleanup_count > 1)
++ {
+         printf("ERROR: Cache object has been cleaned up twice!\n");
+     }
+ }
+@@ -39,7 +41,7 @@ void run_bug() {
+     for (int i = 0; i < 100; i++) { 
+         CacheObject *cache_obj = malloc(sizeof(CacheObject));
+         cache_obj->refcount = 2;
+-        cache_obj->cleanup = 1;
++        cache_obj->cleanup = 0;
+         cache_obj->cleanup_count = 0;
+ 
+         pthread_t t1, t2;

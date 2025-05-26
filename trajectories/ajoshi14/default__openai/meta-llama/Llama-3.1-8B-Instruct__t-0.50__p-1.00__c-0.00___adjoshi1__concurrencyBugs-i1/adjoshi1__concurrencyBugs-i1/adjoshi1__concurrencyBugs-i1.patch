@@ -1,0 +1,46 @@
+diff --git a/cherokee-0.9.2/bug_prompt.c b/cherokee-0.9.2/bug_prompt.c
+index 7406618..f03951d 100644
+--- a/cherokee-0.9.2/bug_prompt.c
++++ b/cherokee-0.9.2/bug_prompt.c
+@@ -95,7 +95,7 @@ ret_t cherokee_buffer_add (cherokee_buffer_t *buf, const char *txt, size_t size)
+ 	}
+ 
+ 	// Copy
+-	memcpy (buf->buf + buf->len, txt, size);
++	memcpy (buf->buf + buf->len, txt, size + 1);
+ 
+ 	buf->len += size;
+ 	buf->buf[buf->len] = '\0';
+diff --git a/reproduce.py b/reproduce.py
+new file mode 100644
+index 0000000..a0abfaf
+--- /dev/null
++++ b/reproduce.py
+@@ -0,0 +1,27 @@
++from cherokee import cherokee
++
++
++
++buf = cherokee()
++
++
++
++def test():
++
++    global buf
++
++    for i in range(10):
++
++        buf.append("Hello")
++
++
++
++test()
++
++
++
++assert buf.buf == "Hello" * 10
++
++assert len(buf.buf) == 10
++
++

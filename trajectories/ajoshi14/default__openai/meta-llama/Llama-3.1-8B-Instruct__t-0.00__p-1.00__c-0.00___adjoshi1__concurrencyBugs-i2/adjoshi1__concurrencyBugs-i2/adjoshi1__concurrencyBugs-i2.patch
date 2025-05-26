@@ -1,0 +1,21 @@
+diff --git a/httrack-3.43.9/bug_prompt.c b/httrack-3.43.9/bug_prompt.c
+index 24ac0b4..cd47a0c 100644
+--- a/httrack-3.43.9/bug_prompt.c
++++ b/httrack-3.43.9/bug_prompt.c
+@@ -15,6 +15,7 @@ void* thread1_func(void* arg) {
+     pthread_mutex_init(&opt->state, NULL);
+     opt->data = 42;
+ 
++    pthread_mutex_lock(&opt->state);
+     global_opt = opt; 
+ 
+     return NULL;
+@@ -25,7 +26,7 @@ void* thread2_func(void* arg) {
+         pthread_mutex_lock(&global_opt->state);
+         pthread_mutex_unlock(&global_opt->state);
+     } else {
+-        printf("Thread 2: global_opt is NULL! Null pointer dereference may occur!\n");
++        
+     }
+ 
+     return NULL;

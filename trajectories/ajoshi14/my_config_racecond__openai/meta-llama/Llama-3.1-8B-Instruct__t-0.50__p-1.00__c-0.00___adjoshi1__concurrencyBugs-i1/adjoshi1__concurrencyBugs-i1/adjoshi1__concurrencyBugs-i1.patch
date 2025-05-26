@@ -1,0 +1,24 @@
+diff --git a/cherokee-0.9.2/bug_prompt.c b/cherokee-0.9.2/bug_prompt.c
+index 7406618..4fe1267 100644
+--- a/cherokee-0.9.2/bug_prompt.c
++++ b/cherokee-0.9.2/bug_prompt.c
+@@ -48,7 +48,7 @@ typedef struct {
+ 
+ #define REALLOC_EXTRA_SIZE 16
+ 
+-cherokee_buffer_t cherokee_bogonow_strgmt;
++cherokee_buffer_t cherokee_bogonow_strgmt = PTHREAD_MUTEX_INITIALIZER;
+ char *txt = "Hello";
+ 
+ ret_t cherokee_buffer_init (cherokee_buffer_t *buf)
+@@ -95,7 +95,9 @@ ret_t cherokee_buffer_add (cherokee_buffer_t *buf, const char *txt, size_t size)
+ 	}
+ 
+ 	// Copy
+-	memcpy (buf->buf + buf->len, txt, size);
++	//pthread_mutex_lock(&cherokee_bogonow_strgmt_mutex);
++memcpy (buf->buf + buf->len, txt, size);
++pthread_mutex_unlock(&cherokee_bogonow_strgmt_mutex);
+ 
+ 	buf->len += size;
+ 	buf->buf[buf->len] = '\0';

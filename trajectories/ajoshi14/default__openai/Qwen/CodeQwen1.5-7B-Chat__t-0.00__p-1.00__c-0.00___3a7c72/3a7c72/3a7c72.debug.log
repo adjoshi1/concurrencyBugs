@@ -1,0 +1,2477 @@
+2025-04-15 21:09:35,558 - INFO - swea-run - Starting environment
+2025-04-15 21:09:35,583 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 21:09:35,631 - DEBUG - free_port - Found free port 53091
+2025-04-15 21:09:35,633 - INFO - rex-deploy - Starting container python3.11-d95c340c-b951-4948-9f2f-a7828d242ceb with image python:3.11 serving on port 53091
+2025-04-15 21:09:35,635 - DEBUG - rex-deploy - Command: "docker run --rm -p 53091:8000 --name python3.11-d95c340c-b951-4948-9f2f-a7828d242ceb sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 514d0d1c-317b-4230-a2d3-dfe1c1b4214a'"
+2025-04-15 21:09:35,637 - INFO - rex-deploy - Starting runtime at 53091
+2025-04-15 21:09:37,119 - INFO - rex-deploy - Runtime started in 1.48s
+2025-04-15 21:09:37,904 - INFO - swea-env - Environment Initialized
+2025-04-15 21:09:38,142 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 21:09:38,168 - DEBUG - rex-runtime - Created zip file at /tmp/tmp0_xv8mmk/zipped_transfer.zip
+2025-04-15 21:09:38,201 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 21:09:38,337 - INFO - swea-run - Running agent
+2025-04-15 21:09:38,348 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 21:09:38,349 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:09:38,579 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 21:09:38,581 - DEBUG - rex-runtime - Created zip file at /tmp/tmpp1h8ish1/zipped_transfer.zip
+2025-04-15 21:09:38,588 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 21:09:38,591 - DEBUG - rex-runtime - Created zip file at /tmp/tmpj9g1n09o/zipped_transfer.zip
+2025-04-15 21:09:38,597 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 21:09:38,599 - DEBUG - rex-runtime - Created zip file at /tmp/tmp3l1ejxes/zipped_transfer.zip
+2025-04-15 21:09:38,605 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 21:09:38,607 - DEBUG - rex-runtime - Created zip file at /tmp/tmpgcn4yzfu/zipped_transfer.zip
+2025-04-15 21:09:38,613 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 21:09:38,614 - DEBUG - rex-runtime - Created zip file at /tmp/tmpvs3jlrqs/zipped_transfer.zip
+2025-04-15 21:09:42,949 - INFO - swea-tools - Resetting tools
+2025-04-15 21:09:43,312 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 21:09:43,320 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 21:09:43,467 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 21:09:43,470 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 21:09:43,474 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 21:09:43,476 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 21:09:43,600 - WARNING - swea-lm - Retrying LM query: attempt 1 (slept for 10.00s) due to BadRequestError: litellm.BadRequestError: OpenAIException - "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+2025-04-15 21:09:53,655 - WARNING - swea-lm - Retrying LM query: attempt 2 (slept for 20.00s) due to BadRequestError: litellm.BadRequestError: OpenAIException - "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+2025-04-15 21:17:57,574 - INFO - swea-run - Starting environment
+2025-04-15 21:17:57,605 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 21:17:57,656 - DEBUG - free_port - Found free port 45121
+2025-04-15 21:17:57,658 - INFO - rex-deploy - Starting container python3.11-999907e0-d066-40d6-9779-c798eaa486ce with image python:3.11 serving on port 45121
+2025-04-15 21:17:57,659 - DEBUG - rex-deploy - Command: "docker run --rm -p 45121:8000 --name python3.11-999907e0-d066-40d6-9779-c798eaa486ce sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token be19aa87-0b22-4a5c-806d-ae7a7c7e537c'"
+2025-04-15 21:17:57,660 - INFO - rex-deploy - Starting runtime at 45121
+2025-04-15 21:17:59,141 - INFO - rex-deploy - Runtime started in 1.48s
+2025-04-15 21:17:59,926 - INFO - swea-env - Environment Initialized
+2025-04-15 21:18:00,166 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 21:18:00,181 - DEBUG - rex-runtime - Created zip file at /tmp/tmp3z20xgjo/zipped_transfer.zip
+2025-04-15 21:18:00,213 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 21:18:00,347 - INFO - swea-run - Running agent
+2025-04-15 21:18:00,355 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 21:18:00,355 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:18:00,582 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 21:18:00,585 - DEBUG - rex-runtime - Created zip file at /tmp/tmpbq4dbul7/zipped_transfer.zip
+2025-04-15 21:18:00,590 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 21:18:00,592 - DEBUG - rex-runtime - Created zip file at /tmp/tmpfz6ak0ec/zipped_transfer.zip
+2025-04-15 21:18:00,598 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 21:18:00,599 - DEBUG - rex-runtime - Created zip file at /tmp/tmp25cth_sf/zipped_transfer.zip
+2025-04-15 21:18:00,604 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 21:18:00,606 - DEBUG - rex-runtime - Created zip file at /tmp/tmpk1sd_nwv/zipped_transfer.zip
+2025-04-15 21:18:00,611 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 21:18:00,612 - DEBUG - rex-runtime - Created zip file at /tmp/tmpuyunwcz6/zipped_transfer.zip
+2025-04-15 21:18:04,769 - INFO - swea-tools - Resetting tools
+2025-04-15 21:18:05,117 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 21:18:05,121 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 21:18:05,284 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 21:18:05,286 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 21:18:05,288 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 21:18:05,289 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 21:18:06,852 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 723, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 734, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 745, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 769, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 727, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 667, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:18:06,864 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:18:06,865 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 21:18:06,870 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 21:18:06,888 - INFO - swea-agent - Found submission: 
+2025-04-15 21:18:06,889 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 21:18:06,890 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:18:06,891 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 21:18:06,892 - INFO - swea-run - Done
+2025-04-15 21:18:06,892 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 21:33:51,613 - INFO - swea-run - Starting environment
+2025-04-15 21:33:51,643 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 21:33:51,692 - DEBUG - free_port - Found free port 59233
+2025-04-15 21:33:51,695 - INFO - rex-deploy - Starting container python3.11-e75e7b66-09b5-474c-8623-4208e11ee166 with image python:3.11 serving on port 59233
+2025-04-15 21:33:51,696 - DEBUG - rex-deploy - Command: "docker run --rm -p 59233:8000 --name python3.11-e75e7b66-09b5-474c-8623-4208e11ee166 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 7317e843-2fcd-4daa-9cc3-7fe469f66b08'"
+2025-04-15 21:33:51,697 - INFO - rex-deploy - Starting runtime at 59233
+2025-04-15 21:33:53,132 - INFO - rex-deploy - Runtime started in 1.43s
+2025-04-15 21:33:53,917 - INFO - swea-env - Environment Initialized
+2025-04-15 21:33:54,153 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 21:33:54,172 - DEBUG - rex-runtime - Created zip file at /tmp/tmp1hu4g44u/zipped_transfer.zip
+2025-04-15 21:33:54,197 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 21:33:54,326 - INFO - swea-run - Running agent
+2025-04-15 21:33:54,334 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 21:33:54,335 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:33:54,560 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 21:33:54,561 - DEBUG - rex-runtime - Created zip file at /tmp/tmpru8h4317/zipped_transfer.zip
+2025-04-15 21:33:54,565 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 21:33:54,567 - DEBUG - rex-runtime - Created zip file at /tmp/tmpwu28qk4r/zipped_transfer.zip
+2025-04-15 21:33:54,571 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 21:33:54,572 - DEBUG - rex-runtime - Created zip file at /tmp/tmpjotg07ts/zipped_transfer.zip
+2025-04-15 21:33:54,575 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 21:33:54,577 - DEBUG - rex-runtime - Created zip file at /tmp/tmpfbly3s1u/zipped_transfer.zip
+2025-04-15 21:33:54,580 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 21:33:54,581 - DEBUG - rex-runtime - Created zip file at /tmp/tmpezcjn9_4/zipped_transfer.zip
+2025-04-15 21:33:58,665 - INFO - swea-tools - Resetting tools
+2025-04-15 21:33:59,011 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 21:33:59,014 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 21:33:59,175 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 21:33:59,177 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 21:33:59,179 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 21:33:59,180 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 21:34:00,731 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 723, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 734, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 745, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 769, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 727, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 667, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:34:00,743 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:34:00,744 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 21:34:00,750 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 21:34:00,767 - INFO - swea-agent - Found submission: 
+2025-04-15 21:34:00,769 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 21:34:00,772 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:34:00,774 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 21:34:00,774 - INFO - swea-run - Done
+2025-04-15 21:34:00,775 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 21:45:49,490 - INFO - swea-run - Starting environment
+2025-04-15 21:45:49,520 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 21:45:49,567 - DEBUG - free_port - Found free port 35879
+2025-04-15 21:45:49,570 - INFO - rex-deploy - Starting container python3.11-c2020ec2-c9f1-403e-bf5c-3ca8e9701a55 with image python:3.11 serving on port 35879
+2025-04-15 21:45:49,571 - DEBUG - rex-deploy - Command: "docker run --rm -p 35879:8000 --name python3.11-c2020ec2-c9f1-403e-bf5c-3ca8e9701a55 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 9dfbff1a-42c7-4791-a337-5e671e3d9ba1'"
+2025-04-15 21:45:49,572 - INFO - rex-deploy - Starting runtime at 35879
+2025-04-15 21:45:50,752 - INFO - rex-deploy - Runtime started in 1.18s
+2025-04-15 21:45:51,536 - INFO - swea-env - Environment Initialized
+2025-04-15 21:45:51,775 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 21:45:51,793 - DEBUG - rex-runtime - Created zip file at /tmp/tmpwlm9h_i8/zipped_transfer.zip
+2025-04-15 21:45:51,820 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 21:45:51,947 - INFO - swea-run - Running agent
+2025-04-15 21:45:51,955 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 21:45:51,956 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:45:52,181 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 21:45:52,184 - DEBUG - rex-runtime - Created zip file at /tmp/tmpij4hh7dr/zipped_transfer.zip
+2025-04-15 21:45:52,188 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 21:45:52,190 - DEBUG - rex-runtime - Created zip file at /tmp/tmp69r7vjmj/zipped_transfer.zip
+2025-04-15 21:45:52,193 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 21:45:52,195 - DEBUG - rex-runtime - Created zip file at /tmp/tmpzn1bxqtn/zipped_transfer.zip
+2025-04-15 21:45:52,198 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 21:45:52,199 - DEBUG - rex-runtime - Created zip file at /tmp/tmpm1tam_oy/zipped_transfer.zip
+2025-04-15 21:45:52,203 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 21:45:52,204 - DEBUG - rex-runtime - Created zip file at /tmp/tmpfjj5llhs/zipped_transfer.zip
+2025-04-15 21:45:56,771 - INFO - swea-tools - Resetting tools
+2025-04-15 21:45:57,122 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 21:45:57,126 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 21:45:57,288 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 21:45:57,290 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 21:45:57,293 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 21:45:57,293 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 21:45:57,400 - WARNING - swea-lm - Retrying LM query: attempt 1 (slept for 10.00s) due to BadRequestError: litellm.BadRequestError: OpenAIException - "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+2025-04-15 21:47:31,916 - INFO - swea-run - Starting environment
+2025-04-15 21:47:31,945 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 21:47:31,994 - DEBUG - free_port - Found free port 38067
+2025-04-15 21:47:31,997 - INFO - rex-deploy - Starting container python3.11-96b93b53-ce21-4098-b1db-4b03a8a58827 with image python:3.11 serving on port 38067
+2025-04-15 21:47:31,998 - DEBUG - rex-deploy - Command: "docker run --rm -p 38067:8000 --name python3.11-96b93b53-ce21-4098-b1db-4b03a8a58827 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token e1e2e2bc-816f-44dc-a683-75e0f2d19429'"
+2025-04-15 21:47:32,000 - INFO - rex-deploy - Starting runtime at 38067
+2025-04-15 21:47:33,481 - INFO - rex-deploy - Runtime started in 1.48s
+2025-04-15 21:47:34,266 - INFO - swea-env - Environment Initialized
+2025-04-15 21:47:34,506 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 21:47:34,539 - DEBUG - rex-runtime - Created zip file at /tmp/tmp9sh4po92/zipped_transfer.zip
+2025-04-15 21:47:34,574 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 21:47:34,710 - INFO - swea-run - Running agent
+2025-04-15 21:47:34,722 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 21:47:34,722 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:47:34,950 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 21:47:34,953 - DEBUG - rex-runtime - Created zip file at /tmp/tmpq1zh4at2/zipped_transfer.zip
+2025-04-15 21:47:34,959 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 21:47:34,962 - DEBUG - rex-runtime - Created zip file at /tmp/tmpmoc6641t/zipped_transfer.zip
+2025-04-15 21:47:34,970 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 21:47:34,972 - DEBUG - rex-runtime - Created zip file at /tmp/tmpasdcalh5/zipped_transfer.zip
+2025-04-15 21:47:34,977 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 21:47:34,980 - DEBUG - rex-runtime - Created zip file at /tmp/tmpop9binf_/zipped_transfer.zip
+2025-04-15 21:47:34,985 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 21:47:34,987 - DEBUG - rex-runtime - Created zip file at /tmp/tmp6xyafbvs/zipped_transfer.zip
+2025-04-15 21:47:38,951 - INFO - swea-tools - Resetting tools
+2025-04-15 21:47:39,302 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 21:47:39,308 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 21:47:39,472 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 21:47:39,475 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 21:47:39,479 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 21:47:39,480 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 21:47:40,930 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 723, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 734, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 745, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 769, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 727, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 667, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:47:40,953 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:47:40,954 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 21:47:40,962 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 21:47:40,981 - INFO - swea-agent - Found submission: 
+2025-04-15 21:47:40,983 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 21:47:40,986 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:47:40,987 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 21:47:40,988 - INFO - swea-run - Done
+2025-04-15 21:47:40,989 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 21:57:46,960 - INFO - swea-run - Starting environment
+2025-04-15 21:57:46,991 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 21:57:47,041 - DEBUG - free_port - Found free port 33027
+2025-04-15 21:57:47,043 - INFO - rex-deploy - Starting container python3.11-886a6f53-a59d-4456-9a00-a28486eecc02 with image python:3.11 serving on port 33027
+2025-04-15 21:57:47,045 - DEBUG - rex-deploy - Command: "docker run --rm -p 33027:8000 --name python3.11-886a6f53-a59d-4456-9a00-a28486eecc02 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 55962738-f735-4bd9-8e48-25010bebe022'"
+2025-04-15 21:57:47,047 - INFO - rex-deploy - Starting runtime at 33027
+2025-04-15 21:57:48,479 - INFO - rex-deploy - Runtime started in 1.43s
+2025-04-15 21:57:49,265 - INFO - swea-env - Environment Initialized
+2025-04-15 21:57:49,507 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 21:57:49,540 - DEBUG - rex-runtime - Created zip file at /tmp/tmpel6il31b/zipped_transfer.zip
+2025-04-15 21:57:49,577 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 21:57:49,712 - INFO - swea-run - Running agent
+2025-04-15 21:57:49,725 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 21:57:49,726 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:57:49,955 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 21:57:49,959 - DEBUG - rex-runtime - Created zip file at /tmp/tmpyxkf7952/zipped_transfer.zip
+2025-04-15 21:57:49,967 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 21:57:49,970 - DEBUG - rex-runtime - Created zip file at /tmp/tmprvq3nwp8/zipped_transfer.zip
+2025-04-15 21:57:49,977 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 21:57:49,979 - DEBUG - rex-runtime - Created zip file at /tmp/tmp3eegbv5i/zipped_transfer.zip
+2025-04-15 21:57:49,985 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 21:57:49,987 - DEBUG - rex-runtime - Created zip file at /tmp/tmpzfq9xwwj/zipped_transfer.zip
+2025-04-15 21:57:49,993 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 21:57:49,994 - DEBUG - rex-runtime - Created zip file at /tmp/tmpy6g7azbn/zipped_transfer.zip
+2025-04-15 21:57:53,982 - INFO - swea-tools - Resetting tools
+2025-04-15 21:57:54,336 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 21:57:54,343 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 21:57:54,508 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 21:57:54,511 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 21:57:54,515 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 21:57:54,517 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 21:57:56,180 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 725, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 736, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 745, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 769, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 727, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 667, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:57:56,202 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 21:57:56,203 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 21:57:56,209 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 21:57:56,227 - INFO - swea-agent - Found submission: 
+2025-04-15 21:57:56,229 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 21:57:56,232 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 21:57:56,234 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 21:57:56,234 - INFO - swea-run - Done
+2025-04-15 21:57:56,235 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 22:44:52,767 - INFO - swea-run - Starting environment
+2025-04-15 22:44:52,796 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 22:44:52,844 - DEBUG - free_port - Found free port 49679
+2025-04-15 22:44:52,847 - INFO - rex-deploy - Starting container python3.11-8e998d21-8f75-4721-9c29-ae3bb08a0999 with image python:3.11 serving on port 49679
+2025-04-15 22:44:52,847 - DEBUG - rex-deploy - Command: "docker run --rm -p 49679:8000 --name python3.11-8e998d21-8f75-4721-9c29-ae3bb08a0999 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 11fbec69-52f7-469e-a178-db6ff596995e'"
+2025-04-15 22:44:52,849 - INFO - rex-deploy - Starting runtime at 49679
+2025-04-15 22:44:54,281 - INFO - rex-deploy - Runtime started in 1.43s
+2025-04-15 22:44:55,071 - INFO - swea-env - Environment Initialized
+2025-04-15 22:44:55,311 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 22:44:55,331 - DEBUG - rex-runtime - Created zip file at /tmp/tmpknysevc1/zipped_transfer.zip
+2025-04-15 22:44:55,367 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 22:44:55,501 - INFO - swea-run - Running agent
+2025-04-15 22:44:55,509 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 22:44:55,510 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 22:44:55,738 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 22:44:55,740 - DEBUG - rex-runtime - Created zip file at /tmp/tmp_q927yov/zipped_transfer.zip
+2025-04-15 22:44:55,745 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 22:44:55,746 - DEBUG - rex-runtime - Created zip file at /tmp/tmpl9e42_yt/zipped_transfer.zip
+2025-04-15 22:44:55,752 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 22:44:55,753 - DEBUG - rex-runtime - Created zip file at /tmp/tmpnknktzjz/zipped_transfer.zip
+2025-04-15 22:44:55,757 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 22:44:55,759 - DEBUG - rex-runtime - Created zip file at /tmp/tmp0am44wcx/zipped_transfer.zip
+2025-04-15 22:44:55,763 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 22:44:55,764 - DEBUG - rex-runtime - Created zip file at /tmp/tmpkbd0h53x/zipped_transfer.zip
+2025-04-15 22:44:59,833 - INFO - swea-tools - Resetting tools
+2025-04-15 22:45:00,187 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 22:45:00,191 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 22:45:00,355 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 22:45:00,357 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 22:45:00,359 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 22:45:00,360 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 22:45:00,466 - WARNING - swea-lm - Retrying LM query: attempt 1 (slept for 10.00s) due to BadRequestError: litellm.BadRequestError: OpenAIException - "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+2025-04-15 22:45:10,523 - WARNING - swea-lm - Retrying LM query: attempt 2 (slept for 20.00s) due to BadRequestError: litellm.BadRequestError: OpenAIException - "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+2025-04-15 22:45:20,579 - WARNING - swea-lm - Retrying LM query: attempt 3 (slept for 30.00s) due to BadRequestError: litellm.BadRequestError: OpenAIException - "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+2025-04-15 22:46:22,326 - INFO - swea-run - Starting environment
+2025-04-15 22:46:22,354 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 22:46:22,400 - DEBUG - free_port - Found free port 32859
+2025-04-15 22:46:22,401 - INFO - rex-deploy - Starting container python3.11-81c448cd-7517-4b9e-a5dc-e5fbc1fbac2c with image python:3.11 serving on port 32859
+2025-04-15 22:46:22,402 - DEBUG - rex-deploy - Command: "docker run --rm -p 32859:8000 --name python3.11-81c448cd-7517-4b9e-a5dc-e5fbc1fbac2c sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 409bb916-94ca-4a10-a8d0-d76768526200'"
+2025-04-15 22:46:22,404 - INFO - rex-deploy - Starting runtime at 32859
+2025-04-15 22:46:23,884 - INFO - rex-deploy - Runtime started in 1.48s
+2025-04-15 22:46:24,671 - INFO - swea-env - Environment Initialized
+2025-04-15 22:46:24,910 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 22:46:24,929 - DEBUG - rex-runtime - Created zip file at /tmp/tmpn7e0fnex/zipped_transfer.zip
+2025-04-15 22:46:24,962 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 22:46:25,095 - INFO - swea-run - Running agent
+2025-04-15 22:46:25,102 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 22:46:25,102 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 22:46:25,330 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 22:46:25,333 - DEBUG - rex-runtime - Created zip file at /tmp/tmptvuenpud/zipped_transfer.zip
+2025-04-15 22:46:25,338 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 22:46:25,340 - DEBUG - rex-runtime - Created zip file at /tmp/tmph8dcgx5f/zipped_transfer.zip
+2025-04-15 22:46:25,345 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 22:46:25,347 - DEBUG - rex-runtime - Created zip file at /tmp/tmpwl5m3ape/zipped_transfer.zip
+2025-04-15 22:46:25,351 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 22:46:25,353 - DEBUG - rex-runtime - Created zip file at /tmp/tmpuj_1q972/zipped_transfer.zip
+2025-04-15 22:46:25,357 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 22:46:25,358 - DEBUG - rex-runtime - Created zip file at /tmp/tmpecqy__gp/zipped_transfer.zip
+2025-04-15 22:46:29,506 - INFO - swea-tools - Resetting tools
+2025-04-15 22:46:29,855 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 22:46:29,859 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 22:46:30,022 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 22:46:30,024 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 22:46:30,026 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 22:46:30,027 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 22:46:31,490 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 725, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 736, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 745, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 769, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 727, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 667, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 22:46:31,502 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 22:46:31,503 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 22:46:31,508 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 22:46:31,526 - INFO - swea-agent - Found submission: 
+2025-04-15 22:46:31,527 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 22:46:31,529 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 22:46:31,530 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 22:46:31,530 - INFO - swea-run - Done
+2025-04-15 22:46:31,531 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 22:54:21,605 - INFO - swea-run - Starting environment
+2025-04-15 22:54:21,633 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 22:54:21,681 - DEBUG - free_port - Found free port 34299
+2025-04-15 22:54:21,683 - INFO - rex-deploy - Starting container python3.11-cf55b1a5-c607-40f3-b490-8a973bb0dc00 with image python:3.11 serving on port 34299
+2025-04-15 22:54:21,684 - DEBUG - rex-deploy - Command: "docker run --rm -p 34299:8000 --name python3.11-cf55b1a5-c607-40f3-b490-8a973bb0dc00 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token ab0fe199-9e6e-4535-a8cd-680aaa0b1d9b'"
+2025-04-15 22:54:21,685 - INFO - rex-deploy - Starting runtime at 34299
+2025-04-15 22:54:23,115 - INFO - rex-deploy - Runtime started in 1.43s
+2025-04-15 22:54:23,902 - INFO - swea-env - Environment Initialized
+2025-04-15 22:54:24,147 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 22:54:24,167 - DEBUG - rex-runtime - Created zip file at /tmp/tmpepmhuoia/zipped_transfer.zip
+2025-04-15 22:54:24,203 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 22:54:24,334 - INFO - swea-run - Running agent
+2025-04-15 22:54:24,342 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 22:54:24,343 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 22:54:24,571 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 22:54:24,572 - DEBUG - rex-runtime - Created zip file at /tmp/tmp6fhu_nm0/zipped_transfer.zip
+2025-04-15 22:54:24,578 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 22:54:24,580 - DEBUG - rex-runtime - Created zip file at /tmp/tmpikbwqkyu/zipped_transfer.zip
+2025-04-15 22:54:24,586 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 22:54:24,587 - DEBUG - rex-runtime - Created zip file at /tmp/tmpxg9g3eu4/zipped_transfer.zip
+2025-04-15 22:54:24,592 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 22:54:24,593 - DEBUG - rex-runtime - Created zip file at /tmp/tmp2o1xa4w4/zipped_transfer.zip
+2025-04-15 22:54:24,598 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 22:54:24,599 - DEBUG - rex-runtime - Created zip file at /tmp/tmprzv29pml/zipped_transfer.zip
+2025-04-15 22:54:28,294 - INFO - swea-tools - Resetting tools
+2025-04-15 22:54:28,643 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 22:54:28,647 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 22:54:28,794 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 22:54:28,796 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 22:54:28,798 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 22:54:28,799 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 22:54:30,269 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 725, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 736, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 745, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 769, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 727, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 667, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 22:54:30,281 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 22:54:30,281 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 22:54:30,286 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 22:54:30,301 - INFO - swea-agent - Found submission: 
+2025-04-15 22:54:30,302 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 22:54:30,304 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 22:54:30,305 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 22:54:30,305 - INFO - swea-run - Done
+2025-04-15 22:54:30,306 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 22:55:54,332 - INFO - swea-run - Starting environment
+2025-04-15 22:55:54,362 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 22:55:54,408 - DEBUG - free_port - Found free port 38157
+2025-04-15 22:55:54,410 - INFO - rex-deploy - Starting container python3.11-a0bd0e6a-8ef8-4465-991f-c299fee846ce with image python:3.11 serving on port 38157
+2025-04-15 22:55:54,411 - DEBUG - rex-deploy - Command: "docker run --rm -p 38157:8000 --name python3.11-a0bd0e6a-8ef8-4465-991f-c299fee846ce sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 34b856fa-a2ae-430f-b2f8-0688625ff65e'"
+2025-04-15 22:55:54,412 - INFO - rex-deploy - Starting runtime at 38157
+2025-04-15 22:55:55,842 - INFO - rex-deploy - Runtime started in 1.43s
+2025-04-15 22:55:56,627 - INFO - swea-env - Environment Initialized
+2025-04-15 22:55:56,866 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 22:55:56,887 - DEBUG - rex-runtime - Created zip file at /tmp/tmp04ac7h1d/zipped_transfer.zip
+2025-04-15 22:55:56,921 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 22:55:57,055 - INFO - swea-run - Running agent
+2025-04-15 22:55:57,065 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 22:55:57,066 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 22:55:57,293 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 22:55:57,296 - DEBUG - rex-runtime - Created zip file at /tmp/tmp9z7xvhqx/zipped_transfer.zip
+2025-04-15 22:55:57,302 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 22:55:57,304 - DEBUG - rex-runtime - Created zip file at /tmp/tmppg1r63n2/zipped_transfer.zip
+2025-04-15 22:55:57,309 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 22:55:57,310 - DEBUG - rex-runtime - Created zip file at /tmp/tmp5jpmchi9/zipped_transfer.zip
+2025-04-15 22:55:57,315 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 22:55:57,316 - DEBUG - rex-runtime - Created zip file at /tmp/tmply2xz6r7/zipped_transfer.zip
+2025-04-15 22:55:57,321 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 22:55:57,322 - DEBUG - rex-runtime - Created zip file at /tmp/tmppvxbc8mj/zipped_transfer.zip
+2025-04-15 22:56:01,548 - INFO - swea-tools - Resetting tools
+2025-04-15 22:56:01,897 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 22:56:01,901 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 22:56:02,063 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 22:56:02,065 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 22:56:02,067 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 22:56:02,068 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 22:56:03,639 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 725, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 736, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 749, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 773, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 731, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 671, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 22:56:03,651 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 22:56:03,652 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 22:56:03,658 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 22:56:03,675 - INFO - swea-agent - Found submission: 
+2025-04-15 22:56:03,676 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 22:56:03,678 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 22:56:03,679 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 22:56:03,680 - INFO - swea-run - Done
+2025-04-15 22:56:03,680 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 22:58:39,316 - INFO - swea-run - Starting environment
+2025-04-15 22:58:39,348 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 22:58:39,398 - DEBUG - free_port - Found free port 39149
+2025-04-15 22:58:39,401 - INFO - rex-deploy - Starting container python3.11-b5bb33b9-e830-40c2-9703-63f572b740e4 with image python:3.11 serving on port 39149
+2025-04-15 22:58:39,402 - DEBUG - rex-deploy - Command: "docker run --rm -p 39149:8000 --name python3.11-b5bb33b9-e830-40c2-9703-63f572b740e4 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token c0f23e20-28e2-478f-8b53-59d93721bca1'"
+2025-04-15 22:58:39,404 - INFO - rex-deploy - Starting runtime at 39149
+2025-04-15 22:58:40,842 - INFO - rex-deploy - Runtime started in 1.44s
+2025-04-15 22:58:41,743 - DEBUG - rex-deploy - Ensuring deployment is stopped because object is deleted
+2025-04-15 23:00:05,579 - INFO - swea-run - Starting environment
+2025-04-15 23:00:05,608 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 23:00:05,650 - DEBUG - free_port - Found free port 39945
+2025-04-15 23:00:05,652 - INFO - rex-deploy - Starting container python3.11-0a42a0c4-705f-435f-b91d-5ca961fa0902 with image python:3.11 serving on port 39945
+2025-04-15 23:00:05,653 - DEBUG - rex-deploy - Command: "docker run --rm -p 39945:8000 --name python3.11-0a42a0c4-705f-435f-b91d-5ca961fa0902 sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 74b9863b-397b-4836-acaa-e4c965119f62'"
+2025-04-15 23:00:05,655 - INFO - rex-deploy - Starting runtime at 39945
+2025-04-15 23:00:07,133 - INFO - rex-deploy - Runtime started in 1.48s
+2025-04-15 23:00:07,920 - INFO - swea-env - Environment Initialized
+2025-04-15 23:00:08,159 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 23:00:08,180 - DEBUG - rex-runtime - Created zip file at /tmp/tmp8tny6lpd/zipped_transfer.zip
+2025-04-15 23:00:08,215 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 23:00:08,347 - INFO - swea-run - Running agent
+2025-04-15 23:00:08,356 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 23:00:08,356 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 23:00:08,585 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 23:00:08,587 - DEBUG - rex-runtime - Created zip file at /tmp/tmpl6s6w89s/zipped_transfer.zip
+2025-04-15 23:00:08,593 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 23:00:08,595 - DEBUG - rex-runtime - Created zip file at /tmp/tmp6up6uhrr/zipped_transfer.zip
+2025-04-15 23:00:08,601 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 23:00:08,602 - DEBUG - rex-runtime - Created zip file at /tmp/tmpf3p2pub1/zipped_transfer.zip
+2025-04-15 23:00:08,607 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 23:00:08,608 - DEBUG - rex-runtime - Created zip file at /tmp/tmpntkoqgeh/zipped_transfer.zip
+2025-04-15 23:00:08,613 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 23:00:08,613 - DEBUG - rex-runtime - Created zip file at /tmp/tmpj3n365rn/zipped_transfer.zip
+2025-04-15 23:00:13,144 - INFO - swea-tools - Resetting tools
+2025-04-15 23:00:13,495 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 23:00:13,499 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 23:00:13,661 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 23:00:13,662 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 23:00:13,665 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 23:00:13,666 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 23:00:15,071 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 725, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 736, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 749, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 773, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 731, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 671, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 23:00:15,084 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 23:00:15,084 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 23:00:15,089 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 23:00:15,105 - INFO - swea-agent - Found submission: 
+2025-04-15 23:00:15,106 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 23:00:15,108 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 23:00:15,109 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 23:00:15,109 - INFO - swea-run - Done
+2025-04-15 23:00:15,109 - INFO - swea-env - Beginning environment shutdown...
+2025-04-15 23:09:18,612 - INFO - swea-run - Starting environment
+2025-04-15 23:09:18,644 - INFO - rex-deploy - Building image python:3.11 to install a standalone python to /root. This might take a while (but you only have to do it once). To skip this step, set `python_standalone_dir` to None.
+2025-04-15 23:09:18,699 - DEBUG - free_port - Found free port 46503
+2025-04-15 23:09:18,702 - INFO - rex-deploy - Starting container python3.11-08c56206-bf3c-4b74-b69c-4c489f2f6d3e with image python:3.11 serving on port 46503
+2025-04-15 23:09:18,704 - DEBUG - rex-deploy - Command: "docker run --rm -p 46503:8000 --name python3.11-08c56206-bf3c-4b74-b69c-4c489f2f6d3e sha256:ade3cd8bf82680e8348d228daa4f1d686d1f0bcdf3cc5b76f1fa63e2d13e7bee /bin/sh -c '/root/python3.11/bin/swerex-remote --auth-token 93c7aca5-fdc3-4725-80e8-5c608985d7f7'"
+2025-04-15 23:09:18,705 - INFO - rex-deploy - Starting runtime at 46503
+2025-04-15 23:09:20,140 - INFO - rex-deploy - Runtime started in 1.43s
+2025-04-15 23:09:20,924 - INFO - swea-env - Environment Initialized
+2025-04-15 23:09:21,166 - DEBUG - rex-runtime - Uploading file from . to /concurrencyBugs
+2025-04-15 23:09:21,188 - DEBUG - rex-runtime - Created zip file at /tmp/tmptghzjqgv/zipped_transfer.zip
+2025-04-15 23:09:21,224 - DEBUG - swea-env - Resetting repository concurrencyBugs to commit HEAD
+2025-04-15 23:09:21,353 - INFO - swea-run - Running agent
+2025-04-15 23:09:21,362 - INFO - swea-agent - Setting up agent for instance 3a7c72
+2025-04-15 23:09:21,362 - INFO - swea-agent - Trajectory will be saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 23:09:21,590 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/registry to /root/tools/registry
+2025-04-15 23:09:21,592 - DEBUG - rex-runtime - Created zip file at /tmp/tmp7a_sfyx3/zipped_transfer.zip
+2025-04-15 23:09:21,597 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/defaults to /root/tools/defaults
+2025-04-15 23:09:21,599 - DEBUG - rex-runtime - Created zip file at /tmp/tmpdywkg30g/zipped_transfer.zip
+2025-04-15 23:09:21,605 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/search to /root/tools/search
+2025-04-15 23:09:21,606 - DEBUG - rex-runtime - Created zip file at /tmp/tmp09g7nad4/zipped_transfer.zip
+2025-04-15 23:09:21,610 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/edit_replace to /root/tools/edit_replace
+2025-04-15 23:09:21,612 - DEBUG - rex-runtime - Created zip file at /tmp/tmp5vggied9/zipped_transfer.zip
+2025-04-15 23:09:21,616 - DEBUG - rex-runtime - Uploading file from /home/ajoshi14/SWE-agent/tools/submit to /root/tools/submit
+2025-04-15 23:09:21,617 - DEBUG - rex-runtime - Created zip file at /tmp/tmptv4xl70i/zipped_transfer.zip
+2025-04-15 23:09:26,163 - INFO - swea-tools - Resetting tools
+2025-04-15 23:09:26,515 - INFO - swea-agent - SYSTEM (main)
+SETTING: You are an autonomous programmer, and you're working directly in the command line with a special interface.
+
+The special interface consists of a file editor that shows you 100 lines of a file at a time.
+In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+To call a command, you need to invoke it with a function call/tool call.
+
+Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+For example, if you are looking at this file:
+
+def fct():
+    print("Hello world")
+
+and you want to edit the file to read:
+
+def fct():
+    print("Hello")
+    print("world")
+
+you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+(note the extra spaces before the print statement!).
+
+You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+
+RESPONSE FORMAT:
+Your shell prompt is formatted as follows:
+(Open file: <path>)
+(Current directory: <cwd>)
+bash-$
+
+First, you should _always_ include a general thought about what you're going to do next.
+Then, for every response, you must include exactly _ONE_ tool call/function call.
+
+Remember, you should always include a _SINGLE_ tool call/function call and then wait for a response from the shell before continuing with more discussion and commands. Everything you include in the DISCUSSION section will be saved for future reference.
+If you'd like to issue two commands at once, PLEASE DO NOT DO THAT! Please instead first submit just the first tool call, and then after receiving a response you'll be able to issue the second .
+Note that the environment does NOT support interactive session commands (e.g. python, vim), so please do not invoke them.
+2025-04-15 23:09:26,519 - INFO - swea-agent - DEMONSTRATION: /home/ajoshi14/SWE-agent/trajectories/demonstrations/replay__marshmallow-code__marshmallow-1867__function_calling_replace__install-1/marshmallow-code__marshmallow-1867.traj
+2025-04-15 23:09:26,685 - DEBUG - swea-tools - Retrieved state from environment: {'open_file': 'n/a', 'working_dir': '/concurrencyBugs'}
+2025-04-15 23:09:26,687 - INFO - swea-agent - 🤖 MODEL INPUT
+We're currently solving the following issue within our repository. Here's the issue text:
+ISSUE:
+Seems like a non-deadlock atomicity violation bug. Some runs have "buf = Hello, len = 10" instead of "buf = HelloHello, len = 10".
+
+INSTRUCTIONS:
+Now, you're going to solve this issue on your own. Your terminal session has started and you're in the repository's root directory. You can use any bash commands or the special interface to help you. Edit all the files you need to and run any checks or tests that you want.
+Remember, YOU SHOULD ALWAYS INCLUDE EXACTLY ONE TOOL CALL/FUNCTION CALL PER RESPONSE.
+When you're satisfied with all of the changes you've made, you can submit your changes to the code base by simply running the submit command.
+Note however that you cannot use any interactive session commands (e.g. python, vim) in this environment, but you can write scripts and run them. E.g. you can write a python script and then run it with the python command.
+
+NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
+
+GENERAL IMPORTANT TIPS:
+
+1. If you run a command and it doesn't work, try running a different command. A command that did not work once will not work the second time unless you modify it!
+
+2. If you open a file and need to get to an area around a specific line that is not in the first 100 lines, say line 583, don't just use the scroll_down command multiple times. Instead, use the goto 583 command. It's much quicker.
+
+3. If the bug reproduction script requires inputting/reading a specific file, such as buggy-input.png, and you'd like to understand how to input that file, conduct a search in the existing repo code, to see whether someone else has already done that. Do this by running the command: find_file "buggy-input.png" If that doesn't work, use the linux 'find' command.
+
+4. Always make sure to look at the currently open file and the current working directory (which appears right after the currently open file). The currently open file might be in a different directory than the working directory! Note that some commands, such as 'create', open files, so they might change the current open file.
+
+5. When editing files, it is easy to accidentally to write code with incorrect indentation or make other mistakes. Always check the code after you issue an edit to make sure that it reflects what you wanted to accomplish. If it didn't, issue another command to fix it.
+
+6. When editing files, first explain the code you want to edit and why it is causing the problem. Then explain the edit you want to make and how it fixes the problem. Explain how the edit does not break existing functionality.
+
+7. Do not try to install any packages with `pip`, `conda`, or any other way. This will usually not work. If the environment is not set up correctly, try to fix the issue without executing python code or running any tests that require the package installed.
+
+STRATEGY:
+
+1. Always start by trying to replicate the bug that the issues discusses.
+  If the issue includes code for reproducing the bug, we recommend that you re-implement that in your environment, and run it to make sure you can reproduce the bug.
+  Then start trying to fix it.
+
+  If the bug reproduction script does not print anything when it successfully runs, we recommend adding a print("Script completed successfully, no errors.") command at the end of the file,
+  so that you can be sure that the script indeed ran fine all the way through.
+
+2. Locate relevant code using the find and search commands. `open` the file you want to edit.
+
+3. Use the `edit` command to perform edits.
+
+4. When you think you've fixed the bug, re-run the bug reproduction script to make sure that the bug has indeed been fixed.
+
+5. Create additional tests to verify the fix in a style similar to the existing reproduction script. In particular, make sure to test edge cases.
+   If you find any issues, go back to the file you edited and perform further edits.
+
+(Open file: n/a)
+(Current directory: /concurrencyBugs)
+bash-$
+2025-04-15 23:09:26,690 - INFO - swea-agent - ========================= STEP 1 =========================
+2025-04-15 23:09:26,691 - DEBUG - swea-lm - n_cache_control: 0
+2025-04-15 23:09:28,319 - ERROR - swea-agent - Exiting due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 725, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 651, in completion
+    ) = self.make_sync_openai_chat_completion_request(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/logging_utils.py", line 149, in sync_wrapper
+    result = func(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 470, in make_sync_openai_chat_completion_request
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 452, in make_sync_openai_chat_completion_request
+    raw_response = openai_client.chat.completions.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_legacy_response.py", line 364, in wrapped
+    return cast(LegacyAPIResponse[R], func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_utils/_utils.py", line 279, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 914, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 919, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1008, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1057, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/openai/_base_client.py", line 1023, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.InternalServerError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1763, in completion
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 1736, in completion
+    response = openai_chat_completions.completion(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/llms/openai/openai.py", line 736, in completion
+    raise OpenAIError(
+litellm.llms.openai.common_utils.OpenAIError: Error code: 500
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 1056, in forward_with_handling
+    return self.forward(history)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/agents.py", line 990, in forward
+    output = self.model.query(history)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 749, in query
+    for attempt in Retrying(
+                   ^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 445, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 378, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 773, in query
+    result = self._query(messages, n=n, temperature=temperature)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 731, in _query
+    outputs.extend(self._single_query(messages))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/SWE-agent/sweagent/agent/models.py", line 671, in _single_query
+    response: litellm.types.utils.ModelResponse = litellm.completion(  # type: ignore
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1247, in wrapper
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/utils.py", line 1125, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/main.py", line 3166, in completion
+    raise exception_type(
+          ^^^^^^^^^^^^^^^
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 2214, in exception_type
+    raise e
+  File "/home/ajoshi14/miniconda3/lib/python3.12/site-packages/litellm/litellm_core_utils/exception_mapping_utils.py", line 455, in exception_type
+    raise APIError(
+litellm.exceptions.APIError: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 23:09:28,332 - WARNING - swea-agent - Exit due to unknown error: litellm.APIError: APIError: OpenAIException - Error code: 500
+2025-04-15 23:09:28,332 - WARNING - swea-agent - Attempting autosubmission after error
+2025-04-15 23:09:28,337 - INFO - swea-agent - Executing submission command git add -A && git diff --cached > /root/model.patch in /concurrencyBugs
+2025-04-15 23:09:28,355 - INFO - swea-agent - Found submission: 
+2025-04-15 23:09:28,356 - INFO - swea-agent - 🤖 MODEL INPUT
+Your command ran successfully and did not produce any output.
+(Open file: )
+(Current directory: )
+bash-$
+2025-04-15 23:09:28,358 - INFO - swea-agent - Trajectory saved to /home/ajoshi14/concurrencyBugs/trajectories/ajoshi14/default__openai/Qwen/CodeQwen1.5-7B-Chat__t-0.00__p-1.00__c-0.00___3a7c72/3a7c72/3a7c72.traj
+2025-04-15 23:09:28,359 - INFO - swea-save_apply_patch - No patch to save.
+2025-04-15 23:09:28,360 - INFO - swea-run - Done
+2025-04-15 23:09:28,360 - INFO - swea-env - Beginning environment shutdown...

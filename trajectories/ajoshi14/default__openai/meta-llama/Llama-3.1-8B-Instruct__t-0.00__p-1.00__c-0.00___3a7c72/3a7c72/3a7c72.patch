@@ -1,0 +1,28 @@
+diff --git a/reproduce.py b/reproduce.py
+new file mode 100644
+index 0000000..b049d98
+--- /dev/null
++++ b/reproduce.py
+@@ -0,0 +1,21 @@
++
++import time
++import threading
++
++buf = ''
++len = 0
++
++def worker():
++    global buf, len
++    for _ in range(100000):
++        buf += 'HelloHello'
++        len += 1
++
++t = threading.Thread(target=worker)
++
++start_time = time.time()
++t.start()
++t.join()
++end_time = time.time()
++
++print(f'buf = {buf}, len = {len}')
+\ No newline at end of file

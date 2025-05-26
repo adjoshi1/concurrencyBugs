@@ -1,0 +1,1 @@
+{"model_name_or_path": "default_no_fcalls__instant_empty_submit__t-0.00__p-1.00__c-0.00___adjoshi1__concurrencyBugs-i1", "instance_id": "adjoshi1__concurrencyBugs-i1", "model_patch": "diff --git a/reproduce.py b/reproduce.py\nnew file mode 100644\nindex 0000000..8b13789\n--- /dev/null\n+++ b/reproduce.py\n@@ -0,0 +1 @@\n+\n"}
