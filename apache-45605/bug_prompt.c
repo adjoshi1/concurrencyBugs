@@ -12,7 +12,7 @@ pthread_cond_t wait_for_idler = PTHREAD_COND_INITIALIZER;
 
 void *listener_thread(void *arg) {
     for (int i = 0; i < NUM_ITERATIONS; ++i) {
-        // Delay to allow race with worker
+    
         usleep(rand() % 200);
 
         if (atomic_load(&idlers) == 0) {
@@ -25,11 +25,10 @@ void *listener_thread(void *arg) {
 
         int val = atomic_fetch_sub(&idlers, 1);
         if (val <= 0) {
-            fprintf(stderr, "[BUG] idlers underflow detected in listener! (val=%d)\n", val);
+            fprintf(stderr, "ERROR: idlers underflow detected in listener! (val=%d)\n", val);
             abort();
         }
 
-        // Simulate doing some work
         usleep(rand() % 100);
     }
     return NULL;
@@ -37,12 +36,10 @@ void *listener_thread(void *arg) {
 
 void *worker_thread(void *arg) {
     for (int i = 0; i < NUM_ITERATIONS; ++i) {
-        // Simulate doing work
         usleep(rand() % 150);
 
         int prev = atomic_fetch_add(&idlers, 1);
 
-        // Delay to simulate race
         usleep(rand() % 100);
 
         if (prev == 0) {
@@ -55,7 +52,6 @@ void *worker_thread(void *arg) {
 }
 
 int main() {
-    // add a loop
     for (int i = 0; i < 1000; ++i) {
         srand(time(NULL));
         pthread_t listener, worker;
@@ -67,7 +63,5 @@ int main() {
         pthread_join(worker, NULL);
     }
    
-
-    printf("Finished without crashing (this is unexpected)\n");
     return 0;
 }
