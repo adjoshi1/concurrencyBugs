@@ -59,11 +59,6 @@ int main() {
         for (int i = 0; i < NUM_THREADS; i++) {
             pthread_join(threads[i], NULL);
         }
-
-        // Optional: Print final buffer state
-        // fwrite(buf.outbuf, 1, buf.outcnt, stdout);
     }
-
-    printf("Stress test complete.\n");
     return 0;
 }

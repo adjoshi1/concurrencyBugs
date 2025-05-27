@@ -1,0 +1,13 @@
+diff --git a/apache-25520/bug_prompt.c b/apache-25520/bug_prompt.c
+index b7396ca..2f85328 100644
+--- a/apache-25520/bug_prompt.c
++++ b/apache-25520/bug_prompt.c
+@@ -61,7 +61,7 @@ int main() {
+         }
+ 
+         // Optional: Print final buffer state
+-        // fwrite(buf.outbuf, 1, buf.outcnt, stdout);
++        // # fwrite(buf.outbuf, 1, buf.outcnt, stdout);
+     }
+ 
+     printf("Stress test complete.\n");
