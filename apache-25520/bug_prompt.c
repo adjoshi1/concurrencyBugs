@@ -32,7 +32,7 @@ void* log_writer(void* arg) {
         memcpy(s, msg, len);
 
         if (prev_outcnt != buf.outcnt) {
-            printf(">>> Race detected! Thread %ld, prev_outcnt=%d, actual=%d\n",
+            printf("ERROR: Race detected! Thread %ld, prev_outcnt=%d, actual=%d\n",
                    (long)arg, prev_outcnt, buf.outcnt);
             abort();
         }

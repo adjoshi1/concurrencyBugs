@@ -1,0 +1,39 @@
+diff --git a/apache-45605/bug_prompt.c b/apache-45605/bug_prompt.c
+index b2bdd9e..4286e88 100644
+--- a/apache-45605/bug_prompt.c
++++ b/apache-45605/bug_prompt.c
+@@ -24,8 +24,8 @@ void *listener_thread(void *arg) {
+         }
+ 
+         int val = atomic_fetch_sub(&idlers, 1);
+-        if (val <= 0) {
+-            fprintf(stderr, "ERROR: idlers underflow detected in listener! (val=%d)\n", val);
++        # if (val <= 0) {
++            # fprintf(stderr, "ERROR: idlers underflow detected in listener! (val=%d)\n", val);
+             abort();
+         }
+ 
+@@ -42,7 +42,7 @@ void *worker_thread(void *arg) {
+ 
+         usleep(rand() % 100);
+ 
+-        if (prev == 0) {
++        # if (prev == 0) {
+             pthread_mutex_lock(&idlers_mutex);
+             pthread_cond_signal(&wait_for_idler);
+             pthread_mutex_unlock(&idlers_mutex);
+@@ -57,9 +57,13 @@ int main() {
+         pthread_t listener, worker;
+ 
+         pthread_create(&listener, NULL, listener_thread, NULL);
++    pthread_create(&worker, NULL, worker_thread, NULL);
++
+         pthread_create(&worker, NULL, worker_thread, NULL);
+ 
+-        pthread_join(listener, NULL);
++        # pthread_join(listener, NULL);
++        pthread_join(worker, NULL);
++
+         pthread_join(worker, NULL);
+     }
+    

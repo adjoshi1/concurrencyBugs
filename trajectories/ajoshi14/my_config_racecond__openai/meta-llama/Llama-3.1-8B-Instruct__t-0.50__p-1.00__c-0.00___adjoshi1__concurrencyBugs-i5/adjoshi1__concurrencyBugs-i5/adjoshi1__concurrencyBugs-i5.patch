@@ -1,0 +1,27 @@
+diff --git a/apache-45605/bug_prompt.c b/apache-45605/bug_prompt.c
+index b2bdd9e..c9916e7 100644
+--- a/apache-45605/bug_prompt.c
++++ b/apache-45605/bug_prompt.c
+@@ -17,7 +17,7 @@ void *listener_thread(void *arg) {
+ 
+         if (atomic_load(&idlers) == 0) {
+             pthread_mutex_lock(&idlers_mutex);
+-            if (atomic_load(&idlers) == 0) {
++            while (atomic_load(&idlers) == 0) {
+                 pthread_cond_wait(&wait_for_idler, &idlers_mutex);
+             }
+             pthread_mutex_unlock(&idlers_mutex);
+@@ -42,11 +42,11 @@ void *worker_thread(void *arg) {
+ 
+         usleep(rand() % 100);
+ 
++        pthread_mutex_lock(&idlers_mutex);
+         if (prev == 0) {
+-            pthread_mutex_lock(&idlers_mutex);
+             pthread_cond_signal(&wait_for_idler);
+-            pthread_mutex_unlock(&idlers_mutex);
+         }
++        pthread_mutex_unlock(&idlers_mutex);
+     }
+     return NULL;
+ }
