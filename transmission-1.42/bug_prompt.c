@@ -20,7 +20,6 @@ pthread_mutex_t bug_mutex = PTHREAD_MUTEX_INITIALIZER;
 Bandwidth* tr_bandwidthNew(Handle* h, void* unused) {
     Bandwidth* bw = malloc(sizeof(Bandwidth));
     bw->dummy = 42;
-    printf("[Init] Bandwidth initialized\n");
     return bw;
 }
 
@@ -33,11 +32,10 @@ void* allocateBandwidth(void* arg) {
     if (!tr_isBandwidth(h->bandwidth)) {
         pthread_mutex_lock(&bug_mutex);
         bug_count++;
-        fprintf(stderr, "[Bug %d] Bandwidth not initialized!\n", bug_count);
+        fprintf(stderr, "ERROR: Bandwidth not initialized!\n", bug_count);
         pthread_mutex_unlock(&bug_mutex);
         abort();
     } else {
-        printf("[OK] Bandwidth valid\n");
     }
     return NULL;
 }
