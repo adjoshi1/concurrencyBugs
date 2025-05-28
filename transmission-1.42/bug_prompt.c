@@ -29,7 +29,7 @@ int tr_isBandwidth(Bandwidth* b) {
 }
 
 void* allocateBandwidth(void* arg) {
-    usleep(rand() % 1000);  // Simulate delayed callback
+    usleep(rand() % 1000);  
     if (!tr_isBandwidth(h->bandwidth)) {
         pthread_mutex_lock(&bug_mutex);
         bug_count++;
@@ -43,7 +43,7 @@ void* allocateBandwidth(void* arg) {
 }
 
 void* sessionInit(void* arg) {
-    usleep(rand() % 1000);  // Simulate initialization delay
+    usleep(rand() % 1000);  
     h->bandwidth = tr_bandwidthNew(h, NULL);
     return NULL;
 }
