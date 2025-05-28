@@ -63,8 +63,6 @@ int main() {
         pthread_join(t2, NULL);
     }
 
-    printf("\nTest completed. Total bugs detected: %d out of %d iterations.\n", bug_count, iterations);
-
     free(h->bandwidth);
     free(h);
     return 0;
