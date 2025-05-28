@@ -35,19 +35,16 @@ item* do_item_alloc(size_t nbytes) {
 }
 
 void item_replace(item *old_it, item *new_it) {
-    usleep(rand() % 100); // Force interleaving
-    printf("[DEBUG] Replacing item. Old: %p New: %p\n", (void*)old_it, (void*)new_it);
+    usleep(rand() % 100); 
     shared_item = new_it;
     free(old_it);
 }
 
 void do_item_remove(item *it) {
-    // Simulate reference removal
-    // noop since we free old_it in replace
 }
 
 int do_add_delta(item *it, int incr, int64_t delta) {
-    usleep(rand() % 100); // Force interleaving
+    usleep(rand() % 100); 
     unsigned long long old_value = strtoull(it->data, NULL, 10);
     unsigned long long value = incr ? old_value + delta : old_value - delta;
 
@@ -66,10 +63,10 @@ int do_add_delta(item *it, int incr, int64_t delta) {
         memset(it->data + res, ' ', it->nbytes - res - 2);
     }
 
-    usleep(rand() % 100); // Force interleaving
+    usleep(rand() % 100);
     unsigned long long observed = strtoull(shared_item->data, NULL, 10);
     if (observed < old_value) {
-        fprintf(stderr, "[BUG] Atomicity violation detected: value reverted from %llu to %llu\n", old_value, observed);
+        fprintf(stderr, "ERROR: Atomicity violation detected: value reverted from %llu to %llu\n", old_value, observed);
         abort();
     }
 
@@ -82,7 +79,7 @@ void add_delta(item *it, int incr, int64_t delta) {
 
 void* thread_func(void* arg) {
     for (int i = 0; i < 1000; ++i) {
-        item *local = shared_item; // Simulate stale pointer
+        item *local = shared_item;
         add_delta(local, 1, 1);
         usleep(rand() % 100);
     }
@@ -91,7 +88,7 @@ void* thread_func(void* arg) {
 
 int main() {
     for (int run = 0; run < 500; ++run) {
-        shared_item = do_item_alloc(8);  // Force reallocation
+        shared_item = do_item_alloc(8);  
         strcpy(shared_item->data, "0\r\n");
 
         pthread_t t1, t2;
@@ -104,9 +101,8 @@ int main() {
         unsigned long long final = strtoull(shared_item->data, NULL, 10);
         unsigned long long expected = 2 * 1000;
 
-        printf("Run %d final value: %s", run + 1, shared_item->data);
         if (final != expected) {
-            fprintf(stderr, "[BUG] Final value mismatch: expected %llu, got %llu\n", expected, final);
+            fprintf(stderr, "ERROR: Final value mismatch: expected %llu, got %llu\n", expected, final);
             abort();
         }
 
